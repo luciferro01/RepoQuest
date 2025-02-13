@@ -8,14 +8,14 @@
   <name>RepoQuest</name>
 
   <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-  <vendor email="support@yourcompany.com" url="https://www.yourcompany.com">YourCompany</vendor>
+  <vendor email="mohilbansal.official@gmail.com" url="https://www.mohilbansal.tech">Mohil Bansal</vendor>
 
   <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
        Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
        Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+
   <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
+    This plugin provides a tool window for searching dependencies.
   ]]></description>
 
   <!-- Product and plugin compatibility requirements.
@@ -26,5 +26,12 @@
        Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
   <extensions defaultExtensionNs="com.intellij">
 
+
+    <toolWindow
+            factoryClass="com.mohil_bansal.repo_quest.MainWindow"
+            id="Dependency Search"
+            anchor="right"
+            secondary="true"
+            icon="/META-INF/pluginIcon.svg"/>
   </extensions>
 </idea-plugin>
