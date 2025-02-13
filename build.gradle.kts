@@ -11,6 +11,12 @@ repositories {
   mavenCentral()
 }
 
+dependencies{
+  implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.14")
+  implementation("org.jsoup:jsoup:1.18.3")
+  implementation("com.google.code.gson:gson:2.12.1")
+}
+
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
