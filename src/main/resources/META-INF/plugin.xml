@@ -31,7 +31,7 @@
 
     <toolWindow
             factoryClass="com.mohil_bansal.repo_quest.MainWindow"
-            id="Dependency Search"
+            id="RepoQuest"
             anchor="right"
             secondary="true"
             icon="/META-INF/pluginIcon.svg"/>
