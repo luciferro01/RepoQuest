@@ -5,6 +5,7 @@ import com.intellij.openapi.util.text.StringUtil
 import com.intellij.ui.DoubleClickListener
 import com.intellij.ui.components.JBTextField
 import com.intellij.openapi.ui.ComboBox
+import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.table.JBTable
 import com.mohil_bansal.repo_quest.components.PackageItem
 import com.mohil_bansal.repo_quest.components.PackageResult
@@ -68,9 +69,10 @@ class NpmWindow(private val project: Project) {
         searchButton.addActionListener { e: ActionEvent? -> handleSearch() }
         prevButton.addActionListener { e: ActionEvent? ->
             if (!packageTableLoading) {
-                var currentPageValue = currentPage.text.toInt()
+                var currentPageValue = currentPage.text.split("/")[0].toInt()
                 if (currentPageValue > 1) {
-                    currentPage.text = (--currentPageValue).toString()
+                    currentPageValue--
+                    currentPage.text = "$currentPageValue/${totalPage.text}"
                     searchGroupList()
                 }
             }
@@ -78,9 +80,10 @@ class NpmWindow(private val project: Project) {
         nextButton.addActionListener { e: ActionEvent? ->
             if (!packageTableLoading) {
                 val totalPageValue = totalPage.text.toInt()
-                var currentPageValue = currentPage.text.toInt()
+                var currentPageValue = currentPage.text.split("/")[0].toInt()
                 if (currentPageValue < totalPageValue) {
-                    currentPage.text = (++currentPageValue).toString()
+                    currentPageValue++
+                    currentPage.text = "$currentPageValue/${totalPage.text}"
                     searchGroupList()
                 }
             }
@@ -102,11 +105,21 @@ class NpmWindow(private val project: Project) {
         searchPanel.add(searchButton, gbc)
         npmPanel.add(searchPanel, BorderLayout.NORTH)
 
-        val packageScrollPane = JScrollPane(packageTable)
+        val packageScrollPane = JBScrollPane(packageTable)
         packageScrollPane.preferredSize = Dimension(800, 300)
-        npmPanel.add(packageScrollPane, BorderLayout.CENTER)
 
-        val versionScrollPane = JScrollPane(versionTable)
+        val paginationPanel = JPanel()
+        paginationPanel.add(prevButton)
+        paginationPanel.add(currentPage)
+        paginationPanel.add(nextButton)
+
+        val packagePanel = JPanel(BorderLayout())
+        packagePanel.add(packageScrollPane, BorderLayout.CENTER)
+        packagePanel.add(paginationPanel, BorderLayout.SOUTH)
+
+        npmPanel.add(packagePanel, BorderLayout.CENTER)
+
+        val versionScrollPane = JBScrollPane(versionTable)
         versionScrollPane.preferredSize = Dimension(800, 300)
         npmPanel.add(versionScrollPane, BorderLayout.SOUTH)
     }
@@ -165,7 +178,7 @@ class NpmWindow(private val project: Project) {
     }
 
     private fun handleSearch() {
-        currentPage.text = "1"
+        currentPage.text = "1/1"
         totalPage.text = "1"
         currentSearchText = searchText.text
         searchGroupList()
@@ -173,7 +186,7 @@ class NpmWindow(private val project: Project) {
 
     private fun searchGroupList() {
         if (!StringUtil.isEmpty(currentSearchText)) {
-            val currentPageText = currentPage.text
+            val currentPageText = currentPage.text.split("/")[0]
             val pageValue = (currentPageText.toInt() - 1).toString()
             val sortText = sortLabel[sortSelect.selectedIndex]
             packageTableLoading = true
@@ -185,7 +198,8 @@ class NpmWindow(private val project: Project) {
                             val list: List<PackageItem> = result.data ?: emptyList()
                             val totalPageValue: Int = result.totalPage
                             val maxPages = 100 // Limit the total number of pages to 100
-                            totalPage.text = (ceil((totalPageValue / 10.0)).toInt().coerceAtMost(maxPages)).toString()
+                            totalPage.text = "${ceil((totalPageValue / 10.0)).toInt().coerceAtMost(maxPages)}"
+                            currentPage.text = "${currentPage.text.split("/")[0]}/${totalPage.text}"
                             packageTableModel.dataVector.removeAllElements()
                             versionTableModel.dataVector.removeAllElements()
                             packageTableModel.setupTable(list)
