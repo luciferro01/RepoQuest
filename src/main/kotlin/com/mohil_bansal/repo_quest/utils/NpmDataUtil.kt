@@ -40,9 +40,14 @@ object NpmDataUtil {
                     }
                     list.add(packageItem)
                 }
-                val totalPage = document.getElementById("main").child(0).getElementsByTag("h2")[0].text().split(" ")[0]
+                val totalPageText = document.getElementById("main").child(0).getElementsByTag("h2")[0].text().split(" ")[0]
+                val totalPage = if (totalPageText.contains("+")) {
+                    1000 // Handle the case where total pages are more than 1000
+                } else {
+                    totalPageText.toInt()
+                }
                 val packageResult = PackageResult().apply {
-                    this.totalPage = totalPage.toInt()
+                    this.totalPage = totalPage
                     this.data = list
                 }
                 callback.onSuccess(packageResult)
