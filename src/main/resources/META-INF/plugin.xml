@@ -26,6 +26,8 @@
        Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
   <extensions defaultExtensionNs="com.intellij">
 
+<!--    For the Notifications-->
+     <notificationGroup id="RepoQuest.Notification" displayType="BALLOON" />
 
     <toolWindow
             factoryClass="com.mohil_bansal.repo_quest.MainWindow"
