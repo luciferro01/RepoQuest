@@ -152,34 +152,6 @@ class MavenWindow(private val project: Project) {
                     repositoryTab.removeAll()
                     val selectedRow = groupTable.selectedRow
                     val groupItem: DependenceGroupItem = groupTableModel.getData()!![selectedRow]
-//                    MavenDataUtil.searchRepositoryList(groupItem, object : Callback<List<RepositoryItem?>?> {
-//                        override fun onSuccess(data: List<RepositoryItem?>?) {
-//                            data?.forEach { repositoryItem ->
-//                                val artifactTable = ArtifactTable(
-//                                    groupItem = groupItem,
-//                                    project = project,
-//                                    detailDialog = DetailDialog(),
-//                                    repositoryPath = repositoryItem?.path ?: ""
-//                                )
-//                                repositoryTab.addTab(repositoryItem?.title ?: "", artifactTable)
-//                            }
-//                        }
-//
-//                        override fun onFailure(msg: String?) {
-//                            // Handle failure
-//                        }
-//
-//                        override fun onError(msg: String?) {
-//                            if (msg != null) {
-//                                NotificationUtils.errorNotify(msg, project)
-//                            }
-//                        }
-//
-//                        override fun onComplete() {
-//                            searchRepositoryLoading = false
-//                        }
-//                    })
-//
 
                     groupItem.groupLabel?.let {
                         groupItem.artifactId?.let { it1 ->
@@ -255,7 +227,7 @@ class MavenWindow(private val project: Project) {
     private fun searchGroupList() {
         if (!StringUtil.isEmpty(currentSearchText)) {
             val currentPageText = currentPage.text.split("/")[0]
-            val pageValue = (currentPageText.toInt() - 1).toString()
+            val pageValue = (currentPageText.toInt()).toString()
             val sortText = sortLabel[sortSelect.selectedIndex]
             groupTableLoading = true
             groupTable.setPaintBusy(true)
