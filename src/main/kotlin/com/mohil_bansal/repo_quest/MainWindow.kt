@@ -7,26 +7,33 @@ import com.intellij.openapi.wm.ToolWindowFactory
 import com.mohil_bansal.repo_quest.view.NpmWindow
 import javax.swing.JPanel
 import com.intellij.ui.content.ContentFactory
+import com.mohil_bansal.repo_quest.view.MavenWindow
 
 class MainWindow : ToolWindowFactory {
 
-    private val mainPanel: JPanel? = null
+    private var mavenWindow: MavenWindow? = null
     private var npmWindow: NpmWindow? = null
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
 
         val fullApplication = ApplicationInfoEx.getInstanceEx().fullApplicationName
         npmWindow = NpmWindow(project)
+        mavenWindow = MavenWindow(project)
+
         val contentFactory = ContentFactory.getInstance()
         val npmContent = contentFactory.createContent(npmWindow!!.npmPanel, "NPM", false)
+        val mavenContent = contentFactory.createContent(mavenWindow!!.mavenPanel, "Maven", false)
 
+//        toolWindow.contentManager.addContent(npmContent)
+//        toolWindow.contentManager.addContent(mavenContent)
+        if (fullApplication.startsWith("WebStorm")) {
+            toolWindow.contentManager.addContent(npmContent)
+            toolWindow.contentManager.addContent(mavenContent)
 
-        toolWindow.contentManager.addContent(npmContent)
-//        if (fullApplication.startsWith("WebStorm")) {
-//            toolWindow.contentManager.addContent(npmContent)
-//        } else {
-//            toolWindow.contentManager.addContent(npmContent)
-//        }
+        } else {
+            toolWindow.contentManager.addContent(mavenContent)
+            toolWindow.contentManager.addContent(npmContent)
+        }
     }
 
     override fun init(toolWindow: ToolWindow) {}
