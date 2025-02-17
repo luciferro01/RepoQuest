@@ -2,6 +2,7 @@ package com.mohil_bansal.repo_quest.view
 
 import com.intellij.openapi.project.Project
 import com.intellij.ui.DoubleClickListener
+import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.table.JBTable
 import com.mohil_bansal.repo_quest.models.ArtifactTableModel
 
@@ -44,7 +45,7 @@ class ArtifactTable(
         artifactTable.preferredScrollableViewportSize = Dimension(400, 1000)
 
         layout = GridLayout(1, 1)
-        val scrollPane = JScrollPane(artifactTable)
+        val scrollPane = JBScrollPane(artifactTable)
         add(scrollPane)
         this.detailDialog = detailDialog
 
