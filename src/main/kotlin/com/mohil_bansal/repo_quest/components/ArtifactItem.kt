@@ -15,6 +15,8 @@ class ArtifactItem {
             "Repository" -> repository
             "Usages" -> usages?.let { MavenDataUtil.parseInt(it) }
             "Date" -> date
+            "GroupId" -> groupId
+            "ArtifactId" -> artifactId
             else -> ""
         }
     }

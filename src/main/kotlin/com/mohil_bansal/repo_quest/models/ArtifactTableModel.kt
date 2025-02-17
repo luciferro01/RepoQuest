@@ -14,8 +14,8 @@ import javax.swing.table.TableColumnModel
 
 class ArtifactTableModel(private val table: JTable) : DefaultTableModel() {
 
-    private val columnNames = arrayOf("Index", "Version", "Repository", "Usages", "Date")
-    private val types = arrayOf<Class<*>>(Int::class.java, String::class.java, String::class.java, Int::class.java, String::class.java)
+    private val columnNames = arrayOf("Index", "Version", "Repository", "ArtifactId", "Usages", "Date")
+    private val types = arrayOf<Class<*>>(Int::class.java, String::class.java, String::class.java, String::class.java, Int::class.java, String::class.java)
     var data: List<ArtifactItem>? = null
 
     init {
@@ -49,40 +49,6 @@ class ArtifactTableModel(private val table: JTable) : DefaultTableModel() {
         }
     }
 
-    /**
-     * Find the row where the valueName is located in the column
-     *
-     * @param columnIndex Column number
-     * @param value       Value
-     * @return If it does not exist, return -1
-     */
-    protected fun findRowIndex(columnIndex: Int, value: String?): Int {
-        for (rowIndex in 0 until rowCount) {
-            val valueAt = getValueAt(rowIndex, columnIndex)
-            if (StringUtils.equalsIgnoreCase(value, valueAt.toString())) {
-                return rowIndex
-            }
-        }
-        return -1
-    }
-
-    /**
-     * To directly update the row to improve efficiency
-     *
-     * @param rowIndex
-     * @param rowData
-     */
-    protected fun updateRow(rowIndex: Int, rowData: Vector<Any?>?) {
-        dataVector[rowIndex] = rowData
-        // Notify listeners to refresh the UI
-        fireTableRowsUpdated(rowIndex, rowIndex)
-    }
-
-    /**
-     * Set up the table with the list of ArtifactItems
-     *
-     * @param list
-     */
     fun setupTable(list: List<ArtifactItem?>?) {
         data = (list ?: emptyList()) as List<ArtifactItem>?
         list?.forEachIndexed { index, item ->
@@ -99,11 +65,6 @@ class ArtifactTableModel(private val table: JTable) : DefaultTableModel() {
         addRow(convertData)
     }
 
-    /**
-     * Set table stripes (zebra stripes)
-     *
-     * @param striped true to set stripes
-     */
     fun setStriped(striped: Boolean) {
         if (table is JBTable) {
             (table as JBTable).isStriped = striped

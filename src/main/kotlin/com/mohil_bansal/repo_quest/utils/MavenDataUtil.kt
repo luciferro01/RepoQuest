@@ -272,6 +272,7 @@
 package com.mohil_bansal.repo_quest.utils
 
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.diagnostic.thisLogger
 import com.mohil_bansal.repo_quest.components.DependenceGroupItem
 import com.mohil_bansal.repo_quest.components.RepositoryItem
 import com.mohil_bansal.repo_quest.core.Callback
@@ -496,6 +497,146 @@ object MavenDataUtil {
         }
     }
 
+//    fun getDependencies(groupId: String, artifactId: String, callback: Callback<List<ArtifactItem?>?>) {
+//        ApplicationManager.getApplication().executeOnPooledThread {
+//            try {
+//                val url = String.format("$BASE_URL/artifact/%s/%s", groupId, artifactId)
+//                val result = HttpUtils.sendGet(url)
+//                if (!result.contains("Cloudflare")) {
+//                    val document = Jsoup.parse(result)
+//                    println(document)
+//                    val elements = document.getElementsByClass("vbtn release")
+//
+//                    val dependencies: MutableList<ArtifactItem> = ArrayList()
+//                    for (element in elements) {
+//                        val versionText = element.text()
+//
+//                        val artifactItem = ArtifactItem().apply {
+//                            this.groupId = groupId
+//                            this.artifactId = artifactId
+//                            this.version = versionText
+//                            this.date = date
+//                            this.groupId = groupId
+//                            this.artifactId = artifactId
+//
+//                        }
+//                        dependencies.add(artifactItem)
+//                        println("getDependencies Item: GroupId=${artifactItem.groupId}, ArtifactId=${artifactItem.artifactId}, Version=${artifactItem.version}, Date=${artifactItem.date}")
+//                    }
+//                    callback.onSuccess(dependencies)
+//                } else {
+//                    callback.onFailure(FAILURE_MSG)
+//                }
+//            } catch (e1: java.lang.Exception) {
+//                e1.printStackTrace()
+//                callback.onError(getErrorMsg())
+//            } finally {
+//                callback.onComplete()
+//            }
+//        }
+//    }
+
+//    fun getDependencies(groupId: String, artifactId: String, callback: Callback<List<ArtifactItem?>?>) {
+//        ApplicationManager.getApplication().executeOnPooledThread {
+//            try {
+//                val url = String.format("$BASE_URL/artifact/%s/%s", groupId, artifactId)
+//                println(url)
+//                val result = HttpUtils.sendGet(url)
+//                if (!result.contains("Cloudflare")) {
+//                    val document = Jsoup.parse(result)
+////                    println(document)
+//
+//                    // Select table rows containing version information
+//                    val versionRows = document.select("table.grid.versions tbody tr")
+//
+//                    val dependencies: MutableList<ArtifactItem> = ArrayList()
+//                    for (row in versionRows) {
+//                        // Extract data from each row
+//                        val versionElement = row.select("td a.vbtn.release").firstOrNull()
+//                        val versionText = versionElement?.text() ?: ""
+//
+//                        val dateElement = row.select("td.date").firstOrNull()
+//                        val dateText = dateElement?.text() ?: ""
+//
+//                        val usagesElement = row.select("td div.pb.pb-usages div.pbt a").firstOrNull() // Corrected selector for usages
+//                        val usagesText = usagesElement?.text() ?: ""
+//
+//                        // Create ArtifactItem and populate
+//                        val artifactItem = ArtifactItem().apply {
+//                            this.groupId = groupId
+//                            this.artifactId = artifactId
+//                            this.version = versionText
+//                            this.date = dateText
+//                            this.usages = usagesText
+//                        }
+//
+//                        dependencies.add(artifactItem)
+//                        println("getDependencies Item: GroupId=${artifactItem.groupId}, ArtifactId=${artifactItem.artifactId}, Version=${artifactItem.version}, Date=${artifactItem.date}, Usages=${artifactItem.usages}")
+//                    }
+//
+//                    callback.onSuccess(dependencies)
+//                } else {
+//                    callback.onFailure(FAILURE_MSG)
+//                }
+//            } catch (e1: java.lang.Exception) {
+//                e1.printStackTrace()
+//                callback.onError(getErrorMsg())
+//            } finally {
+//                callback.onComplete()
+//            }
+//        }
+//    }
+
+//    fun getDependencies(groupId: String, artifactId: String, callback: Callback<List<ArtifactItem?>?>) {
+//        ApplicationManager.getApplication().executeOnPooledThread {
+//            try {
+//                val url = String.format("$BASE_URL/artifact/%s/%s", groupId, artifactId)
+//                val result = HttpUtils.sendGet(url)
+//                if (!result.contains("Cloudflare")) {
+//                    val document = Jsoup.parse(result)
+//                    println(document)
+//
+//                    // Select table rows containing version information
+//                    val versionRows = document.select("table.grid.versions tbody tr")
+//
+//                    val dependencies: MutableList<ArtifactItem> = ArrayList()
+//                    for (row in versionRows) {
+//                        // Extract data from each row
+//                        val versionElement = row.select("td a.vbtn").firstOrNull()  // Select any .vbtn class (release, beta, alpha)
+//                        val versionText = versionElement?.text() ?: ""
+//
+//                        val dateElement = row.select("td.date").firstOrNull()
+//                        val dateText = dateElement?.text() ?: ""
+//
+//                        val usagesElement = row.select("td div.pb.pb-usages div.pbt a").firstOrNull() // Corrected selector for usages
+//                        val usagesText = usagesElement?.text() ?: ""
+//
+//                        // Create ArtifactItem and populate
+//                        val artifactItem = ArtifactItem().apply {
+//                            this.groupId = groupId
+//                            this.artifactId = artifactId
+//                            this.version = versionText
+//                            this.date = dateText
+//                            this.usages = usagesText
+//                        }
+//
+//                        dependencies.add(artifactItem)
+//                        println("getDependencies Item: GroupId=${artifactItem.groupId}, Repository=${artifactItem.repository} ArtifactId=${artifactItem.artifactId}, Version=${artifactItem.version}, Date=${artifactItem.date}, Usages=${artifactItem.usages}")
+//                    }
+//
+//                    callback.onSuccess(dependencies)
+//                } else {
+//                    callback.onFailure(FAILURE_MSG)
+//                }
+//            } catch (e1: java.lang.Exception) {
+//                e1.printStackTrace()
+//                callback.onError(getErrorMsg())
+//            } finally {
+//                callback.onComplete()
+//            }
+//        }
+//    }
+
     fun getDependencies(groupId: String, artifactId: String, callback: Callback<List<ArtifactItem?>?>) {
         ApplicationManager.getApplication().executeOnPooledThread {
             try {
@@ -503,20 +644,40 @@ object MavenDataUtil {
                 val result = HttpUtils.sendGet(url)
                 if (!result.contains("Cloudflare")) {
                     val document = Jsoup.parse(result)
-                    val elements = document.getElementsByClass("vbtn release")
+                    println(document)
+
+                    // Select table rows containing version information
+                    val versionRows = document.select("table.grid.versions tbody tr")
 
                     val dependencies: MutableList<ArtifactItem> = ArrayList()
-                    for (element in elements) {
-                        val versionText = element.text()
+                    for (row in versionRows) {
+                        // Extract data from each row
+                        val versionElement = row.select("td a.vbtn").firstOrNull()  // Select any .vbtn class (release, beta, alpha)
+                        val versionText = versionElement?.text() ?: ""
 
+                        val dateElement = row.select("td.date").firstOrNull()
+                        val dateText = dateElement?.text() ?: ""
+
+                        val usagesElement = row.select("td div.pb.pb-usages div.pbt a").firstOrNull()
+                        val usagesText = usagesElement?.text() ?: ""
+
+                        val repositoryElement = row.select("td a.b.lic").firstOrNull() // Selector for repository
+                        val repositoryText = repositoryElement?.text() ?: ""
+
+                        // Create ArtifactItem and populate
                         val artifactItem = ArtifactItem().apply {
                             this.groupId = groupId
                             this.artifactId = artifactId
-                            version = versionText
+                            this.version = versionText
+                            this.date = dateText
+                            this.usages = usagesText
+                            this.repository = repositoryText
                         }
+
                         dependencies.add(artifactItem)
-                        println("getDependencies Item: GroupId=${artifactItem.groupId}, ArtifactId=${artifactItem.artifactId}, Version=${artifactItem.version}")
+                        println("getDependencies Item: GroupId=${artifactItem.groupId}, ArtifactId=${artifactItem.artifactId}, Version=${artifactItem.version}, Date=${artifactItem.date}, Usages=${artifactItem.usages}, Repository=${artifactItem.repository}")
                     }
+
                     callback.onSuccess(dependencies)
                 } else {
                     callback.onFailure(FAILURE_MSG)
