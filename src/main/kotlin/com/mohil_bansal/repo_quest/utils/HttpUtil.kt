@@ -12,7 +12,16 @@ object HttpUtils {
     @JvmStatic
     @Throws(IOException::class)
     fun sendGet(url: String): String {
-        return sendGet(url, emptyMap())
+//        return sendGet(url, emptyMap())
+        val request = Request.Builder()
+            .url(url)
+            .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3")
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+            return response.body?.string() ?: ""
+        }
     }
 
     /**
