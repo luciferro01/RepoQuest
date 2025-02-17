@@ -1,4 +1,3 @@
-
 package com.mohil_bansal.repo_quest.utils
 
 import okhttp3.OkHttpClient
@@ -15,7 +14,10 @@ object HttpUtils {
 //        return sendGet(url, emptyMap())
         val request = Request.Builder()
             .url(url)
-            .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3")
+            .header(
+                "User-Agent",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+            )
             .build()
 
         client.newCall(request).execute().use { response ->
