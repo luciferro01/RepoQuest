@@ -66,6 +66,8 @@ object NpmDataUtil {
             try {
                 val result = HttpUtils.sendGet("$BASE_URL/package/${packageItem.packageName}?activeTab=versions")
                 val document: Document = Jsoup.parse(result)
+
+                //TODO: Fix this Null Prone code :) later (not in the mood rn)
                 val child: Element = document.getElementById("tabpanel-versions").child(0)
                 val versionElement = child.child(child.childNodeSize() - 1)
                 val versionList: Elements = versionElement.getElementsByTag("tbody")[0].getElementsByTag("tr")

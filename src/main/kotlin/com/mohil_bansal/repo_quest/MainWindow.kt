@@ -5,7 +5,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import com.mohil_bansal.repo_quest.view.NpmWindow
-import javax.swing.JPanel
 import com.intellij.ui.content.ContentFactory
 import com.mohil_bansal.repo_quest.view.MavenWindow
 
@@ -24,8 +23,6 @@ class MainWindow : ToolWindowFactory {
         val npmContent = contentFactory.createContent(npmWindow!!.npmPanel, "NPM", false)
         val mavenContent = contentFactory.createContent(mavenWindow!!.mavenPanel, "Maven", false)
 
-//        toolWindow.contentManager.addContent(npmContent)
-//        toolWindow.contentManager.addContent(mavenContent)
         if (fullApplication.startsWith("WebStorm")) {
             toolWindow.contentManager.addContent(npmContent)
             toolWindow.contentManager.addContent(mavenContent)
