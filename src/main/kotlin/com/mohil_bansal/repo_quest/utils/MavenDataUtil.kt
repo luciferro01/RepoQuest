@@ -380,8 +380,9 @@ object MavenDataUtil {
     private fun getErrorMsg(): String {
         var msg: String = MavenDataUtil.ERROR_MSG
         try {
-            msg = HttpUtils.sendGet("https://img.whalenas.com:283/file/msg.txt")
+            msg = "Please report the error on the github page https://github.com/luciferro01/RepoQuest/issues"
         } catch (e: Exception) {
+            e.printStackTrace()
         }
         return msg
     }
