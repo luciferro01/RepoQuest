@@ -9,6 +9,7 @@ import com.intellij.ui.DoubleClickListener
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.table.JBTable
+import com.mohil_bansal.repo_quest.components.ArtifactDetail
 import com.mohil_bansal.repo_quest.components.DependenceGroupItem
 import com.mohil_bansal.repo_quest.components.GroupResult
 import com.mohil_bansal.repo_quest.core.Callback
@@ -17,6 +18,7 @@ import com.mohil_bansal.repo_quest.models.ArtifactTableModel
 import com.mohil_bansal.repo_quest.utils.MavenDataUtil
 import com.mohil_bansal.repo_quest.utils.NotificationUtils
 import com.mohil_bansal.repo_quest.components.ArtifactItem
+import com.mohil_bansal.repo_quest.utils.ArtifactDetailDialog
 import java.awt.BorderLayout
 import java.awt.Dimension
 import java.awt.GridBagConstraints
@@ -96,18 +98,9 @@ class MavenWindow(private val project: Project) {
                 }
             }
         }
-//        repositoryTab.tabLayoutPolicy = JTabbedPane.SCROLL_TAB_LAYOUT
-//        repositoryTab.addChangeListener {
-//            var n = repositoryTab.selectedIndex
-//            n = if (n == -1) 0 else n
-//            val artifactTable: ArtifactTable = repositoryTab.getComponentAt(n) as ArtifactTable
-//            if (!artifactTable.hasData()) {
-//                searchArtifactList(artifactTable)
-//            }
-//        }
+
         handleDbClickGroupList()
-        //TODO: Implement handleDbClickRepoList
-//        handleDbCli
+        handleDbClickRepoList()
 
         // Add components to the panel
         val searchPanel = JPanel(GridBagLayout())
@@ -136,9 +129,6 @@ class MavenWindow(private val project: Project) {
         groupPanel.add(paginationPanel, BorderLayout.SOUTH)
 
         val repoScrollPane = JBScrollPane(repoTable)
-//        repositoryTab.add(repoScrollPane)
-//        repositoryTab.preferredSize = Dimension(800, 300) // Provide a default size
-
         repoScrollPane.preferredSize = Dimension(800, 300)
         mavenPanel.add(groupPanel, BorderLayout.CENTER)
         mavenPanel.add(repoScrollPane, BorderLayout.SOUTH)
@@ -188,31 +178,44 @@ class MavenWindow(private val project: Project) {
             }
         }).installOn(groupTable)
     }
+    private fun handleDbClickRepoList() {
+        (object : DoubleClickListener() {
+            override fun onDoubleClick(event: MouseEvent): Boolean {
+                val selectedRow = repoTable.selectedRow
+                if (selectedRow != -1) {
+                    val artifactItem: ArtifactItem = artifactTableModel.data!![selectedRow]
+                    MavenDataUtil.searchArtifactDetail(artifactItem, object : Callback<ArtifactDetail?> {
+                        override fun onSuccess(detail: ArtifactDetail?) {
+                            if (detail != null) {
+                                SwingUtilities.invokeLater {
+                                    val parentFrame = SwingUtilities.getWindowAncestor(repoTable) as JFrame
+                                    ArtifactDetailDialog(parentFrame, detail).isVisible = true
+                                }
+                            } else {
+                                println("Detail is null")
+                            }
+                        }
 
-    private fun searchArtifactList(artifactTable: ArtifactTable) {
-        artifactTable.setPaintBusy(true)
-        artifactTable.setArtifactLoading(true)
-        MavenDataUtil.searchArtifactList(artifactTable, object : Callback<List<ArtifactItem?>?> {
-            override fun onSuccess(list: List<ArtifactItem?>?) {
-                artifactTable.removeAllElements()
-                artifactTable.setupTable(list)
-            }
+                        override fun onFailure(msg: String?) {
+                            if (msg != null) {
+                                NotificationUtils.errorNotify(msg, project)
+                            }
+                        }
 
-            override fun onFailure(msg: String?) {
-                // Handle failure
-            }
+                        override fun onError(msg: String?) {
+                            if (msg != null) {
+                                NotificationUtils.errorNotify(msg, project)
+                            }
+                        }
 
-            override fun onError(msg: String?) {
-                if (msg != null) {
-                    NotificationUtils.errorNotify(msg, project)
+                        override fun onComplete() {
+                            // Handle completion if needed
+                        }
+                    })
                 }
+                return false
             }
-
-            override fun onComplete() {
-                artifactTable.setPaintBusy(false)
-                artifactTable.setArtifactLoading(false)
-            }
-        })
+        }).installOn(repoTable)
     }
 
     private fun handleSearch() {
@@ -249,7 +252,10 @@ class MavenWindow(private val project: Project) {
                     }
 
                     override fun onFailure(msg: String?) {
-                        // Handle failure
+                        //TODO: Handle it in a better way
+                        if (msg != null) {
+                            NotificationUtils.errorNotify(msg, project)
+                        }
                     }
 
                     override fun onError(msg: String?) {
