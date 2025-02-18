@@ -233,7 +233,7 @@ object MavenDataUtil {
                 val result = HttpUtils.sendGet(url)
                 if (!result.contains("Cloudflare")) {
                     val document = Jsoup.parse(result)
-                    println(document)
+//                    println(document)
 
                     // Select table rows containing version information
                     val versionRows = document.select("table.grid.versions tbody tr")
@@ -301,12 +301,27 @@ object MavenDataUtil {
 
                     val maven = document.getElementById("maven-a")
                     val gradle = document.getElementById("gradle-a")
+                    val sbt = document.getElementById("sbt-a")
+                    val ivy = document.getElementById("ivy-a")
+                    val leiningen = document.getElementById("leiningen-a")
+                    val grape = document.getElementById("grape-a")
+                    val buildr = document.getElementById("buildr-a")
+                    val gradleShort = document.getElementById("gradle-short-a")
+                    val gradleShortKotlin = document.getElementById("gradle-short-kotlin-a")
 
                     val detail = ArtifactDetail().apply {
                         artifactId = artifactItem.artifactId
                         version = artifactItem.version
                         mavenContent = toValue(maven?.text() ?: "")
                         gradleContent = toValue(gradle?.text() ?: "")
+                        sbtContent = toValue(sbt?.text() ?: "")
+                        ivyContent = toValue(ivy?.text() ?: "")
+                        leiningenContent = toValue(leiningen?.text() ?: "")
+                        grapeContent = toValue(grape?.text() ?: "")
+                        buildrContent = toValue(buildr?.text() ?: "")
+                        gradleShortContent = toValue(gradleShort?.text() ?: "")
+                        gradleKotlinContent = toValue(gradleShortKotlin?.text() ?: "")
+
                         if (table != null) {
                             val trList = table.getElementsByTag("tr")
                             for (tr in trList) {
@@ -323,7 +338,7 @@ object MavenDataUtil {
                             }
                         }
                     }
-                    println("searchArtifactDetail Detail: ArtifactId=${detail.artifactId}, Version=${detail.version}, License=${detail.license}, Categories=${detail.category}, Organization=${detail.organization}, HomePage=${detail.homePage}, Date=${detail.date}, Repositories=${detail.repository}")
+                    println("searchArtifactDetail Detail: ArtifactId=${detail.artifactId}, Version=${detail.version}, License=${detail.license}, Categories=${detail.category}, Organization=${detail.organization}, HomePage=${detail.homePage}, Date=${detail.date}, Repositories=${detail.repository}, GradleKotlin=${detail.gradleKotlinContent}")
                     callback.onSuccess(detail)
                 } else {
                     callback.onFailure(FAILURE_MSG)
