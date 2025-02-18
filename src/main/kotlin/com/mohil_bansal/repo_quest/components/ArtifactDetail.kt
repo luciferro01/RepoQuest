@@ -19,4 +19,11 @@ class ArtifactDetail {
         get() = if (field == null) "" else field
     var mavenContent: String? = null
     var gradleContent: String? = null
+    var gradleShortContent : String? = null
+    var gradleKotlinContent : String? = null
+    var sbtContent: String? = null
+    var ivyContent: String? = null
+    var leiningenContent: String? = null
+    var grapeContent: String? = null
+    var buildrContent: String? = null
 }
