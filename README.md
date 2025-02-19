@@ -13,6 +13,21 @@
 
 **RepoQuest** is an IntelliJ IDEA plugin designed to provide a tool window for searching dependencies from Maven and NPM repositories.
 
+[//]: # (## Screenshots)
+
+[//]: # (![Maven-Image]&#40;https://i.postimg.cc/k5kZkZgs/Screenshot-2025-02-19-at-12-41-09-PM.png&#41;])
+
+[//]: # (![Dependency-Dialog]&#40;https://i.postimg.cc/xdbpyR3z/Dependency-Dialog.png&#41;])
+
+[//]: # (![Npm-Panel.png]&#40;https://i.postimg.cc/SNNZtqGq/Npm-Panel.png&#41;])
+
+## Screenshots
+<div style="display: flex; flex-wrap: wrap;">
+  <img src="https://i.postimg.cc/k5kZkZgs/Screenshot-2025-02-19-at-12-41-09-PM.png" alt="Maven-Image" style="max-width: 30%; margin: 10px;">
+  <img src="https://i.postimg.cc/xdbpyR3z/Dependency-Dialog.png" alt="Dependency-Dialog" style="max-width: 30%; margin: 10px;">
+  <img src="https://i.postimg.cc/SNNZtqGq/Npm-Panel.png" alt="Npm-Panel" style="max-width: 30%; margin: 10px;">
+</div>
+
 ## Features
 
 ### 1. 🚀 Dependency Search
