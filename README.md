@@ -1,6 +1,6 @@
 
 <div align="center">
-<h1> <a href="https://github.com/luciferro01/RepoQuest">RepoQuest</a> </h1>
+<h1> <a href="https://plugins.jetbrains.com/plugin/26588-repoquest">RepoQuest</a> </h1>
 
 ![RepoQuest](https://socialify.git.ci/luciferro01/RepoQuest/image?custom_description=Idea+Plugin+that+provides+a+tool+window+for+searching+dependencies+from+Mvn+%26+NPM+%F0%9F%9A%80&description=1&font=Raleway&language=1&name=1&owner=1&pattern=Plus&theme=Dark)
 <br/>
@@ -85,10 +85,13 @@ RepoQuest/
 4. Run the plugin.
 
 ## Usage
+  ### Remotely
+  Download the plugin from the official [jetbrains marketplace](https://plugins.jetbrains.com/plugin/26588-repoquest)
 
-1. Launch IntelliJ IDEA with the plugin installed.
-2. Open the RepoQuest tool window.
-3. Search for dependencies and view their details.
+  ### Locally
+  1. Launch IntelliJ IDEA with the plugin installed.
+  2. Open the RepoQuest tool window.
+  3. Search for dependencies and view their details.
 
 ## Development
 
